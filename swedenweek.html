@@ -1,0 +1,37 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf8">
+  <meta http-equiv="Pragma" content="no-cache">
+  <title>Vikan í Svíþjóð</title>
+  <meta name="author" content="Elías Halldór Ágústsson og Kristinn Kristinsson">
+  <meta name="generator" content="vim, see http://www.vim.org/">
+  <script language="Javascript" type="text/javascript">
+      // Function to calculate ISO 8601 week number
+      function getISOWeekNumber(date) {
+          const tempDate = new Date(date.getTime());
+          tempDate.setUTCDate(tempDate.getUTCDate() + 4 - (tempDate.getUTCDay() || 7));
+          const yearStart = new Date(Date.UTC(tempDate.getUTCFullYear(), 0, 1));
+          const weekNumber = Math.ceil((((tempDate - yearStart) / 86400000) + 1) / 7);
+          return weekNumber;
+      }
+
+      function startClock() {
+          // Get local time in Sweden using Intl.DateTimeFormat
+          const options = { timeZone: 'Europe/Stockholm' };
+          const now = new Date(new Intl.DateTimeFormat('en-US', options).format(new Date()));
+
+          const weekNumber = getISOWeekNumber(now);
+          const d = document.getElementById("vika");
+          d.innerHTML = `Í Svíþjóð er núna vika nr. ${weekNumber}`;
+      }
+
+      // Update the text when the page loads
+      window.onload = startClock;
+  </script>
+</head>
+<body style="color: rgb(254, 204, 2); background-color: rgb(0, 106, 167);">
+  <div style="text-align: center; font-size: 24pt;">
+    <span id="vika">Hleð...</span>
+  </div>
+</body>
+</html>
