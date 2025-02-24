@@ -1,0 +1,43 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf8">
+  <meta http-equiv="Pragma" content="no-cache">
+  <title>Vikan með Gísla Marteini</title>
+  <script language="Javascript" type="text/javascript">
+    async function fetchSchedule() {
+      try {
+        const response = await fetch("https://www.ruv.is/sjonvarp/beint");
+        const text = await response.text();
+
+        // Athuga hvort "Vikan með Gísla Marteini" sé í sýningu
+        const isOnAir = text.includes("Vikan með Gísla Marteini");
+
+        const statusElement = document.getElementById("showStatus");
+        if (isOnAir) {
+          statusElement.innerHTML = "Vikan með Gísla Marteini er í sýningu núna!";
+          statusElement.style.color = "green";
+        } else {
+          statusElement.innerHTML = "Vikan með Gísla Marteini er ekki í sýningu.";
+          statusElement.style.color = "red";
+        }
+      } catch (error) {
+        console.error("Villa við að sækja dagskrá RÚV:", error);
+        document.getElementById("showStatus").innerHTML = "Gat ekki sótt dagskrá RÚV.";
+      }
+    }
+
+    function updateShowStatus() {
+      fetchSchedule();
+      setTimeout(updateShowStatus, 60000); // Uppfærum á mínútu fresti
+    }
+  </script>
+</head>
+<body style="color: blue; background-color: white; text-align: center; font-size: 24pt;">
+  <div>
+    <span id="showStatus">Athuga stöðu...</span>
+    <script type="text/javascript">
+      updateShowStatus();
+    </script>
+  </div>
+</body>
+</html>
